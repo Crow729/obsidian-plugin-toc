@@ -81,15 +81,21 @@ export const createToc = (
     const prefix = `${indent}${itemIndication}`;
     const displayText = heading.heading;
     let linkText;
+    function removeBrackets(str) {
+    if (typeof str == 'string') {
+      return str.replace(/^[\[\]]+|[\[\]]+$/g, '');
+    }
+  }
 
     if (settings.useMarkdown && settings.githubCompat)
       return `${prefix} ${anchor(heading.heading)}`;
     else if (settings.useMarkdown) 
       linkText = encodeURI(heading.heading);
-    else if (typeof previousLevelHeading == "undefined")
-      linkText = heading.heading;
-    else 
-      linkText = `${previousLevelHeading.heading}#${heading.heading}`;
+    else if (typeof previousLevelHeading == "undefined") {
+      return `${indent}${itemIndication} [[#${removeBrackets(heading.heading)}|${removeBrackets(heading.heading)}]]`;
+    } else {
+      return `${indent}${itemIndication} [[#${removeBrackets(previousLevelHeading.heading)}#${removeBrackets(heading.heading)}|${removeBrackets(heading.heading)}]]`;
+    }
 
     // wikilink format
     if (!settings.useMarkdown)

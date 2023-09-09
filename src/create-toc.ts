@@ -81,7 +81,7 @@ export const createToc = (
     const prefix = `${indent}${itemIndication}`;
     const displayText = heading.heading;
     let linkText;
-    function removeBrackets(str) {
+    function removeBrackets(str: string) {
     if (typeof str == 'string') {
       return str.replace(/^[\[\]]+|[\[\]]+$/g, '');
     }
